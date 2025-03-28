@@ -1,0 +1,51 @@
+//Interval Scheduling Problem using Greedy Approch 
+#include <stdio.h>
+#include <stdlib.h> 
+
+// Structure to represent an interval
+typedef struct {
+    int start;
+    int end;
+} Interval;
+
+// Comparator function to sort intervals by end time
+int compare(const void *a, const void *b) {
+    return ((Interval *)a)->end - ((Interval *)b)->end;
+}
+
+int main() {
+    int n,i;
+
+    // Taking the number of intervals as input
+    printf("Enter the number of intervals: ");
+    scanf("%d", &n);
+
+    Interval intervals[n];
+
+    // Taking interval values as input
+    printf("Enter the start and end times of each interval:\n");
+    for ( i = 0; i < n; i++) {
+        printf("Interval %d (start ,end): ", i + 1);
+        scanf("%d %d", &intervals[i].start, &intervals[i].end);
+    }
+
+    // Sort intervals by end time
+    qsort(intervals, n, sizeof(Interval), compare);
+
+    printf("\nSelected intervals:\n");
+
+    // Greedy selection of non-overlapping intervals
+    int last_end = -1, count = 0;
+
+    for ( i = 0; i < n; i++) {
+        if (intervals[i].start >= last_end) {
+            printf("(%d, %d)\n", intervals[i].start, intervals[i].end);
+            last_end = intervals[i].end;
+            count++;
+        }
+    }
+
+    printf("\nMaximum number of non-overlapping intervals: %d\n", count);
+
+    return 0;
+}
